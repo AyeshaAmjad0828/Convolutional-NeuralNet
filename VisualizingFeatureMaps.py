@@ -21,12 +21,28 @@ selected_layer_output = selected_layer.output
 
 activation_model = models.Model(inputs=model.input, outputs=selected_layer_output)
 
-def visualize_filters(layer_name, num_filters=10, figsize=(10, 10)):
+# def visualize_filters(layer_name, num_filters=10, figsize=(10, 10)):
+#     filters = model.get_layer(layer_name).get_weights()[0]
+#     fig, ax = plt.subplots(nrows=num_filters // 4, ncols=4, figsize=figsize)
+#     for i in range(num_filters):
+#         ax[i // 4, i % 4].imshow(filters[:, :, 0, i], cmap='viridis')
+#         ax[i // 4, i % 4].axis('off')
+#     plt.tight_layout()
+#     plt.show()
+
+
+def visualize_filters(layer_name, num_filters=16, figsize=(10, 10)):
     filters = model.get_layer(layer_name).get_weights()[0]
-    fig, ax = plt.subplots(nrows=num_filters // 4, ncols=4, figsize=figsize)
-    for i in range(num_filters):
-        ax[i // 4, i % 4].imshow(filters[:, :, 0, i], cmap='viridis')
-        ax[i // 4, i % 4].axis('off')
+    num_cols = 4
+    num_rows = num_filters // num_cols + 1
+    fig, ax = plt.subplots(nrows=num_rows, ncols=num_cols, figsize=figsize)
+    for i in range(num_rows):
+        for j in range(num_cols):
+            if i * num_cols + j < num_filters:
+                ax[i, j].imshow(filters[:, :, 0, i * num_cols + j], cmap='viridis')
+                ax[i, j].axis('off')
+            else:
+                ax[i, j].axis('off')
     plt.tight_layout()
     plt.show()
 
@@ -71,4 +87,7 @@ visualize_filters(layer_name)
 
 image_path = 'Images/pexels-public-domain-pictures-41315.jpg'  # Replace with the path to your image
 visualize_feature_maps(image_path)
+
+image_path2 = 'Images/IMG_20210704_181247.jpg'  # Replace with the path to your image
+visualize_feature_maps(image_path2)
 
