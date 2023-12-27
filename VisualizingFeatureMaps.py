@@ -4,6 +4,7 @@ from tensorflow.keras.applications import VGG16
 from tensorflow.keras import models
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input
+from PIL import Image, ImagePrint
 
 
 model = VGG16(weights='imagenet', include_top=False)
